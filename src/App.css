@@ -1,0 +1,13 @@
+/* global css */
+header nav ul a{
+  color:black;
+  text-decoration: none;
+  padding: 0 12px;
+}
+
+header nav ul a:hover{
+  color:aqua;
+}
+
+
+
