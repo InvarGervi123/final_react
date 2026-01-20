@@ -1,13 +1,83 @@
-/* global css */
-header nav ul a{
-  color:black;
+.brandLink {
+  color: #fff;
   text-decoration: none;
-  padding: 0 12px;
 }
 
-header nav ul a:hover{
-  color:aqua;
+.topHeader {
+  background: linear-gradient(#2d333a, #0f0f10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.pageBg {
+  background: #ffffff;
+  min-height: calc(100vh - 90px);
+}
 
+.bannerText {
+  font-size: 200px;
+  color: #b8ffb8;
+  text-shadow: 0 0 10px #00ff66, 0 0 30px #00ff66, 0 0 60px rgba(0, 255, 102, 0.6);
+  font-weight: 300;
+}
 
+.searchGroup .form-control {
+  border: 2px solid #000;
+  border-right: 0;
+  box-shadow: none;
+}
+
+.searchBtn {
+  border: 2px solid #000;
+  font-weight: 600;
+}
+
+.listTitle {
+  font-size: 34px;
+  margin: 18px 0 8px;
+}
+
+.movieCard {
+  background: #fff;
+  border: 1px solid #ececec;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  padding: 14px;
+  min-height: 160px;
+}
+
+.movieThumb {
+  width: 85px;
+  height: 125px;
+  object-fit: cover;
+}
+
+.movieTitle {
+  font-size: 26px;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.movieYear {
+  color: #666;
+  margin-top: 6px;
+}
+
+.infoPoster {
+  max-height: 380px;
+}
+
+.infoTitle {
+  font-size: 46px;
+}
+
+.infoPlot {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.footerBar {
+  margin-top: 30px;
+  background: linear-gradient(#2d333a, #0f0f10);
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}
