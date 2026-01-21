@@ -1,109 +1,107 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState("");
+
+  const inputRef = useRef();
   const [query] = useSearchParams();
   const nav = useNavigate();
 
-  const [term, setTerm] = useState(query.get("s") || "black");
-
   useEffect(() => {
-    const s = (query.get("s") || "black").trim();
-    setTerm(s);
-    localStorage.setItem("lastSearch", s);
-    doApi(s);
+    doApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const onSub = (e) => {
     e.preventDefault();
-    const s = term.trim();
-    if (!s) return;
-    localStorage.setItem("lastSearch", s);
-    nav(`/?s=${encodeURIComponent(s)}`);
+    const val = inputRef.current.value;
+    if (val === "") return;
+    nav("/?s=" + val);
   };
 
-  const doApi = async (s) => {
-    const url1 = `https://www.omdbapi.com/?s=${encodeURIComponent(s)}&apikey=5a292f28`;
-    const url2 = `https://www.omdbapi.com/?s=${encodeURIComponent(s)}&apikey=90781f94`;
+  const doApi = async () => {
+    const queryS = query.get("s") || "black";
 
-    setErr("");
+    const url1 = `https://www.omdbapi.com/?s=${queryS}&apikey=5a292f28`;
+    const url2 = `https://www.omdbapi.com/?s=${queryS}&apikey=90781f94`;
+
     setLoading(true);
-    setList([]);
 
     try {
-      let { data } = await axios.get(url1);
-      if (!data || data.Response === "False") {
-        ({ data } = await axios.get(url2));
+      const { data } = await axios.get(url1);
+      setList(data.Search);
+    } catch (error) {
+      console.log(error);
+      try {
+        const { data } = await axios.get(url2);
+        setList(data.Search);
+      } catch (error2) {
+        console.log(error2);
+        setList([]);
       }
-
-      if (!data || data.Response === "False") {
-        setErr(data?.Error || "No results");
-        setLoading(false);
-        return;
-      }
-
-      setList(Array.isArray(data.Search) ? data.Search : []);
-      setLoading(false);
-    } catch (e) {
-      setErr("API error");
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="pageBg">
-      <div className="topBanner" style={{ background: `url(${process.env.PUBLIC_URL}/images/vod_banner.jpg) center/cover no-repeat`,}}>
-        <div className="bannerText">Monkeys V.O.D</div>
-    </div>
+    <div className="pageBg d-flex flex-column">
+      <div className="container text-center py-4 flex-grow-1">
 
-
-      <div className="container py-3">
-        <form onSubmit={onSub} className="col-12 col-md-5">
+        <form onSubmit={onSub} className="col-12 col-md-5 mx-auto mb-3">
           <div className="input-group searchGroup">
             <input
-              type="search"
+              ref={inputRef}
               className="form-control"
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
+              type="search"
+              placeholder="search..."
+              defaultValue={query.get("s") || "black"}
             />
-            <button className="btn btn-warning searchBtn">Search</button>
+            <button className="btn btn-dark searchBtn">Search</button>
           </div>
         </form>
 
-        <h2 className="listTitle mt-3">List of tv shows:</h2>
+        <h2 className="listTitle">Results</h2>
 
-        {loading && <h4>Loading...</h4>}
-        {err && !loading && <div className="alert alert-warning">{err}</div>}
+        {loading || !list ? (
+          <h2>Loading...</h2>
+        ) : list.length === 0 ? (
+          <h4>No results found</h4>
+        ) : (
+          <div className="row justify-content-center">
+            {list.map(item => (
+              <div key={item.imdbID} className="col-md-6 col-lg-4 p-2">
+                <div className="movieCard d-flex text-start">
+                  <img
+                    src={item.Poster}
+                    alt={item.Title}
+                    className="movieThumb me-3"
+                  />
+                  <div>
+                    <h4 className="movieTitle">{item.Title}</h4>
+                    <div className="movieYear">Year: {item.Year}</div>
 
-        <div className="row">
-          {list.map((item) => (
-            <div className="col-12 col-md-6 col-lg-4 p-3" key={item.imdbID}>
-              <div className="movieCard d-flex">
-                {item.Poster !== "N/A" && (
-                  <img className="movieThumb" src={item.Poster} alt={item.Title} />
-                )}
-
-                <div className="ms-3 flex-grow-1">
-                  <h4 className="movieTitle">{item.Title}</h4>
-                  <div className="movieYear">Year: {item.Year}</div>
-
-                  <Link
-                    to={`/info/${item.imdbID}?s=${encodeURIComponent(term.trim() || "black")}`}
-                    className="btn btn-dark mt-2"
-                  >
-                    More info
-                  </Link>
+                    <Link
+                      to={"/info/" + item.imdbID}
+                      className="btn btn-dark btn-sm mt-2"
+                    >
+                      More info
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
       </div>
+
+      <footer className="topHeader text-center py-2 text-white">
+        2Monkeys.co.il 2011-2023
+      </footer>
     </div>
   );
 }

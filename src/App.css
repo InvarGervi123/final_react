@@ -65,19 +65,17 @@
   max-height: 380px;
 }
 
-.infoTitle {
-  font-size: 46px;
+/* APP.CSS - להוסיף */
+.bannerWrap{
+  height: 260px;
+  background-image: url("../public/images/vod.jpg");
+  /* https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1600&q=60 */
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-.infoPlot {
-  max-width: 780px;
-  margin: 0 auto;
-}
-
-.footerBar {
-  margin-top: 30px;
-  background: linear-gradient(#2d333a, #0f0f10);
-  color: #fff;
+.bannerText{
+  font-size: 90px; /* במקום 200 כדי שיכנס יפה */
   text-align: center;
-  padding: 10px 0;
 }
