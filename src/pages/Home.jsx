@@ -60,7 +60,7 @@ export default function Home() {
               placeholder="search..."
               defaultValue={query.get("s") || "black"}
             />
-            <button className="btn btn-dark searchBtn">Search</button>
+            <button className="btn btn-warning searchBtn">Search</button>
           </div>
         </form>
 
@@ -95,6 +95,7 @@ export default function Home() {
               </div>
             ))}
           </div>
+
         )}
 
       </div>

@@ -27,21 +27,6 @@ export default function Header() {
             <h3 className="m-0">
               <Link to="/" className="brandLink">My Vod</Link>
             </h3>
-
-            {showHome && (
-              <form onSubmit={onSub} className="col-12 col-md-5 ms-auto">
-                <div className="input-group searchGroup">
-                  <input
-                    type="search"
-                    className="form-control"
-                    value={term}
-                    onChange={(e) => setTerm(e.target.value)}
-                    placeholder="Search..."
-                  />
-                  <button className="btn btn-warning searchBtn">Search</button>
-                </div>
-              </form>
-            )}
           </div>
         </div>
       </header>
