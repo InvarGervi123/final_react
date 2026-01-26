@@ -1,4 +1,3 @@
-// HomeInfo.jsx
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,7 +11,6 @@ export default function HomeInfo() {
 
   useEffect(() => {
     doApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const doApi = async () => {

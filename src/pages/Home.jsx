@@ -12,7 +12,6 @@ export default function Home() {
 
   useEffect(() => {
     doApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const onSub = (e) => {

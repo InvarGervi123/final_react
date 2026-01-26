@@ -1,4 +1,3 @@
-// HEADER.JSX
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
